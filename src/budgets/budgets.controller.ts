@@ -1,18 +1,18 @@
 import { Controller, Post, Body, UseGuards, Req, Get, Query, Put, Param, Delete } from '@nestjs/common';
 import { BudgetsService } from './budgets.service';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
 @Controller('budgets')
 export class BudgetsController {
   constructor(private budgets: BudgetsService) {}
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Req() req: any, @Body() body: any) {
     return this.budgets.create({ ...body, userId: req.user.userId });
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Get()
   async list(@Req() req: any, @Query() q: any) {
     const year = q.year ? parseInt(q.year) : undefined;
@@ -20,13 +20,13 @@ export class BudgetsController {
     return this.budgets.listForUser(req.user.userId, year, month);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(@Req() req: any, @Param('id') id: string, @Body() body: any) {
     return this.budgets.update(id, req.user.userId, body);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async delete(@Req() req: any, @Param('id') id: string) {
     return this.budgets.delete(id, req.user.userId);
