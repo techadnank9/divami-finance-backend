@@ -17,9 +17,6 @@ export class TransactionsController {
   @UseGuards(JwtAuthGuard)
   @Get()
   async list(@Req() req: any, @Query() query: any) {
-
-    console.log({ user: req.user });
-
     return this.tx.findByUser(req.user.userId, query);
   }
 

@@ -13,7 +13,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     PassportModule,
     MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/finance'),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'secret',
+      secret: process.env.JWT_SECRET || 'personal_finance_secret',
       signOptions: { expiresIn: '7d' },
     }),
   ],
