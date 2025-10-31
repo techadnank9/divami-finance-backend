@@ -1,98 +1,243 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 💰 Personal Finance Tracker
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A full-stack Personal Finance Tracker built with **React (TypeScript, MUI)** frontend and **NestJS (TypeScript)** backend, using **MongoDB** (Docker) for data storage. Tracks income & expenses, budgets, and provides a simple dashboard with transaction management and category breakdowns.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🚀 Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Authentication (email/password, JWT)
+- Transactions: add / edit / delete, date-range filters
+- Budgets: monthly budgets by category (month shown as name)
+- Dashboard:
+  - Total income vs expenses for current month
+  - Remaining budget overview (per-category + total)
+  - Simple balance calculation (income - expense)
+  - Spending by category with progress bars
+  - Recent transactions
+- Responsive UI with Material UI
+- Client-side validation using `react-hook-form` + `yup`
+- Simple client-side pagination for transactions
 
-## Project setup
+---
 
-```bash
-$ npm install
+## 🧩 Tech Stack
+
+- Frontend: React + TypeScript, Material UI (MUI), react-router
+- Backend: NestJS + TypeScript, Passport JWT, Mongoose
+- Database: MongoDB (Docker)
+- Utilities: Axios, dayjs, react-hook-form, yup
+
+---
+
+## Prerequisites
+
+- Node.js (v16+ recommended)
+- npm
+- Docker & Docker Compose (for MongoDB)
+
+---
+
+## Repository layout (example)
+
+```
+/project-root
+├─ frontend/        # React app (TypeScript, MUI)
+├─ backend/         # NestJS API
+├─ docker-compose.yml
+└─ README.md
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## 1) Quick: Start MongoDB with Docker
 
-# watch mode
-$ npm run start:dev
+Create a `docker-compose.yml` in project root (if not already):
 
-# production mode
-$ npm run start:prod
+```yaml
+version: '3.8'
+services:
+  mongo:
+    image: mongo:6
+    container_name: pf-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
 ```
 
-## Run tests
+Start MongoDB:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker-compose up -d
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Verify:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+docker ps
+# look for pf-mongo listening on 27017
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 2) Environment Variables
 
-Check out a few resources that may come in handy when working with NestJS:
+Create `.env` files for backend and frontend.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### `backend/.env`
+```
+PORT=3001
+MONGO_URI=mongodb://localhost:27017/pftracker
+JWT_SECRET=please_change_me_in_prod
+```
 
-## Support
+### `frontend/.env` (or `.env.local` for CRA/Vite)
+```
+VITE_API_URL=http://localhost:3001
+# if using next-auth or other providers, add their envs here (optional)
+# NEXTAUTH_URL=http://localhost:3000
+# NEXTAUTH_SECRET=some_secret
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+> **Important:** Use the same `JWT_SECRET` when starting backend and when decoding tokens. If you restart backend with a different secret, previously issued tokens will be invalid.
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 3) Install dependencies
 
-## License
+### Backend
+```bash
+cd backend
+npm install
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Frontend
+```bash
+cd frontend
+npm install
+# If using additional libraries, also install:
+# npm i react-hook-form yup @hookform/resolvers dayjs axios
+```
+
+---
+
+## 4) Run the apps locally
+
+### Start backend (NestJS)
+From `backend/`:
+
+```bash
+# ensure mongo is running via docker
+# start in development mode (shows logs)
+JWT_SECRET=please_change_me_in_prod npm run start:dev
+# On Windows PowerShell:
+# $env:JWT_SECRET='please_change_me_in_prod'; npm run start:dev
+```
+
+Server should be available at: `http://localhost:3001`
+
+### Start frontend (React)
+From `frontend/`:
+
+```bash
+npm run dev
+# or for create-react-app:
+# npm start
+```
+
+Frontend available at `http://localhost:3000` (or port CRA/Vite indicates).
+
+---
+
+## 5) API Endpoints (overview)
+
+> All protected endpoints expect `Authorization: Bearer <token>` header.
+
+- `POST /auth/register` — register new user `{ email, password, name }`
+- `POST /auth/login` — login `{ email, password }` → returns `{ access_token }`
+- `GET /auth/me` — validate token, returns current user info
+
+**Transactions**
+- `POST /transactions` — create transaction `{ amount, type: 'income'|'expense', category, note?, date }`
+- `GET /transactions` — list transactions, supports query params `from`, `to`, pagination later
+- `GET /transactions/summary?year=YYYY&month=M` — income/expense summary (if implemented)
+- `GET /transactions/by-category?year=YYYY&month=M` — aggregated totals by category
+- `PUT /transactions/:id` — update
+- `DELETE /transactions/:id` — delete
+
+**Budgets**
+- `GET /budgets?year=YYYY&month=M` — list budgets for a month
+- `POST /budgets` — create `{ category, limitAmount, month, year }`
+- `PUT /budgets/:id` — update
+- `DELETE /budgets/:id` — delete
+
+---
+
+## 6) Frontend usage notes
+
+- Token storage: frontend stores `access_token` in `localStorage` under `token` (e.g. `localStorage.setItem('token', token)`).
+- Axios is configured to attach the Authorization header automatically via an interceptor in `src/services/api.ts`.
+- Routes:
+  - `/login` — Login page
+  - `/register` — Register page
+  - `/dashboard` — Protected Dashboard
+  - `/transactions` — Transactions list, add/edit modal, filters (from/to)
+  - `/budgets` — Budgets list, add form (month shown as name in dropdown)
+
+---
+
+## 7) Development aids & debugging
+
+- If you get `401 Unauthorized`:
+  - Confirm frontend sends header: check browser DevTools → Network → Request Headers → `Authorization`.
+  - Confirm backend is started with the same `JWT_SECRET`.
+  - Re-login (clear old token: `localStorage.removeItem('token')`).
+
+- If you see `JsonWebTokenError: invalid signature`:
+  - Tokens were signed with a different secret than the running backend. Restart backend with the intended `JWT_SECRET` and re-login to obtain a new token.
+
+- If an endpoint returns `404` (e.g. `/transactions/by-category`):
+  - Ensure backend has the controller method implemented and the server was restarted after changes.
+
+---
+
+## 8) Notes on UI & data
+
+- Month selection for budgets uses a dropdown showing month names (January..December) while sending numeric `month` (1–12) to the API.
+- Date filters use date inputs; `to` filter is converted to end-of-day before sending to API (inclusive).
+- Currency formatting uses `Intl.NumberFormat` (default `en-IN`, `INR`) in `src/utils/format.ts`. Change locale/currency if needed.
+
+---
+
+## 9) Optional: Useful CLI snippets
+
+Register & login via `curl` (for testing):
+
+```bash
+# register
+curl -s -X POST http://localhost:3001/auth/register -H "Content-Type: application/json" -d '{"email":"me@test.local","password":"password123","name":"Me"}'
+
+# login -> get token
+curl -s -X POST http://localhost:3001/auth/login -H "Content-Type: application/json" -d '{"email":"me@test.local","password":"password123"}'
+
+# use token (replace <TOKEN>)
+curl -i -H "Authorization: Bearer <TOKEN>" http://localhost:3001/auth/me
+```
+
+---
+
+## 10) Future improvements
+
+- Server-side pagination & filtering for transactions
+- Charts (Recharts) for visual analytics
+- Export CSV / PDF reports
+- Multi-user collaboration & shared budgets
+- Integration tests & e2e tests
+
+---
+
