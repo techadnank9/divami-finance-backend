@@ -12,7 +12,7 @@ export class Budget {
   year: number;
 
   @Prop({ required: true })
-  month: number; // 1-12
+  month: number;
 
   @Prop({ required: true })
   category: string;
